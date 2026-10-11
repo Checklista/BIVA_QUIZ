@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pediatrisk Vätskebalans & Timdiures - Utbildning & Quiz Del 2</title>
+  <style>
+    :root {
+      --primary: #006699;
+      --primary-dark: #004d73;
+      --bg: #f4f6f8;
+      --card-bg: #ffffff;
+      --text: #222222;
+      --border: #e0e4e8;
+      --correct: #2e7d32;
+      --correct-bg: #e8f5e9;
+      --wrong: #c62828;
+      --wrong-bg: #ffebee;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      padding: 1rem;
+      display: flex;
+      justify-content: center;
+    }
+
+    .container {
+      max-width: 680px;
+      width: 100%;
+      background: var(--card-bg);
+      padding: 1.5rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+
+    h1 {
+      font-size: 1.35rem;
+      color: var(--primary);
+      margin-bottom: 0.3rem;
+    }
+
+    .subtitle {
+      font-size: 0.9rem;
+      color: #666;
+    }
+
+    /* Videosektion (vertikal 9:16) */
+    .video-section {
+      margin-bottom: 2.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .video-wrapper {
+      width: 100%;
+      max-width: 340px;
+      border-radius: 12px;
+      overflow: hidden;
+      background: #000;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+    }
+
+    .video-wrapper video {
+      width: 100%;
+      height: auto;
+      display: block;
+      aspect-ratio: 9 / 16;
+      background-color: #000;
+    }
+
+    /* Frågesportsektion */
+    .quiz-section {
+      margin-top: 1rem;
+    }
+
+    .quiz-section h2 {
+      font-size: 1.2rem;
+      margin-bottom: 1.2rem;
+      border-bottom: 2px solid var(--border);
+      padding-bottom: 0.5rem;
+      color: #333;
+    }
+
+    .question-card {
+      margin-bottom: 1.5rem;
+      padding: 1.1rem;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: #fff;
+    }
+
+    .question-title {
+      font-weight: 600;
+      font-size: 0.98rem;
+      margin-bottom: 0.85rem;
+      color: #1a1a1a;
+    }
+
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .option-btn {
+      text-align: left;
+      padding: 0.75rem 1rem;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: #fafafa;
+      font-size: 0.92rem;
+      cursor: pointer;
+      line-height: 1.4;
+      transition: background 0.15s, border-color 0.15s;
+    }
+
+    .option-btn:hover:not(:disabled) {
+      background: #eef3f7;
+      border-color: var(--primary);
+    }
+
+    .option-btn:disabled {
+      cursor: default;
+    }
+
+    .option-btn.correct {
+      background-color: var(--correct-bg);
+      border-color: var(--correct);
+      color: var(--correct);
+      font-weight: 600;
+    }
+
+    .option-btn.wrong {
+      background-color: var(--wrong-bg);
+      border-color: var(--wrong);
+      color: var(--wrong);
+    }
+
+    .explanation {
+      margin-top: 0.75rem;
+      padding: 0.85rem;
+      border-radius: 6px;
+      font-size: 0.88rem;
+      display: none;
+      line-height: 1.45;
+    }
+
+    .explanation.show {
+      display: block;
+      background-color: #f8fafc;
+      border-left: 4px solid var(--primary);
+    }
+
+    .score-banner {
+      display: none;
+      text-align: center;
+      padding: 1.5rem;
+      background: #eef6fa;
+      border-radius: 8px;
+      margin-top: 1.5rem;
+      font-weight: 600;
+      font-size: 1.05rem;
+      border: 1px solid #cce0eb;
+    }
+
+    .reset-btn {
+      display: inline-block;
+      margin-top: 1rem;
+      padding: 0.6rem 1.2rem;
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+    .reset-btn:hover {
+      background: var(--primary-dark);
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <header>
+    <h1>Pediatrisk Vätskebehandling & Balans</h1>
+    <div class="subtitle">Instruktionsfilm & Kunskapskontroll Del 2</div>
+  </header>
+
+  <!-- 1. VIDEOSEKTION -->
+  <div class="video-section">
+    <div class="video-wrapper">
+      <video controls playsinline preload="metadata">
+        <source src="video.mp4" type="video/mp4">
+        Webbläsaren stödjer inte video.
+      </video>
+    </div>
+  </div>
+
+  <!-- 2. FRÅGESPORT -->
+  <div class="quiz-section">
+    <h2>Kunskapskontroll</h2>
+    <div id="quiz-container"></div>
+    <div id="score-banner" class="score-banner"></div>
+  </div>
+</div>
+
+<script>
+  const quizData = [
+    {
+      question: "Fråga nr 1: Ett barn som väger 3 kg har vätskebalansuppföljning var 12:e timme. Under en 12-timmarsperiod uppmätts en förlust via ventrikelsond på 45 ml. Hur stor volym Natriumklorid (NaCl) ska ersättas under nästkommande 12-timmarsperiod enligt 1%-regeln?",
+      options: [
+        "A. 45 ml",
+        "B. 15 ml",
+        "C. 30 ml",
+        "D. 60 ml"
+      ],
+      correctIndex: 2,
+      explanation: "Rätt svar: 30 ml. Med en dygnsgräns på 1 % (30 ml/dygn för ett barn på 3 kg) får barnet förlora 15 ml per 12 timmar utan ersättning. Därför ska 45 − 15 = 30 ml ersättas."
+    },
+    {
+      question: "Fråga nr 2: Vad skiljer främst mätning av timdiures via urimeter (KAD) från blöjvägning när man vill utvärdera vätskebalans och njurfunktion på intensivvården?",
+      options: [
+        "A. Timdiures via urimeter ger möjlighet till snabbare trendanalys (3–5 timmar) än blöjvägning.",
+        "B. Blöjvägning är mer exakt för att upptäcka plötsliga blodtrycksfall som påverkar njurperfusionen.",
+        "C. Vid blöjvägning räknas 1 gram avföring om till 2 ml vätskeförlust i balansen.",
+        "D. Mätning med urimeter kräver inte att man tar hänsyn till residualurin i slangen hos små barn."
+      ],
+      correctIndex: 0,
+      explanation: "Det stämmer! Kontinuerlig timmätning via KAD möjliggör identifiering av en tydlig diurestrend redan efter 3–5 timmar, medan blöjvägning kräver längre tidsintervall."
+    },
+    {
+      question: "Fråga nr 3: En patient som väger 10 kg har producerat totalt 200 ml urin under en 6-timmarsperiod. Vad uppgår patientens timdiures till uttryckt i ml/kg/timme?",
+      options: [
+        "A. 1,2 ml/kg/timme",
+        "B. 5,0 ml/kg/timme",
+        "C. 2,0 ml/kg/timme",
+        "D. 3,3 ml/kg/timme"
+      ],
+      correctIndex: 3,
+      explanation: "Rätt svar: 3,3 ml/kg/timme. Beräkning: Volym / (vikt × timmar) = 200 ml / (10 kg × 6 h) = 200 / 60 ≈ 3,33 ml/kg/timme."
+    },
+    {
+      question: "Fråga nr 4: Hur förändras beräkningen av perspiratio för ett spädbarn (1–12 månader) på BIVA när barnet behandlas i respirator jämfört med vid spontanandning?",
+      options: [
+        "A. Perspirationen ökar från 6–8 ml/kg/dygn till 10–15 ml/kg/dygn.",
+        "B. Perspirationen fördubblas på grund av den ökade metabola belastningen från respiratorn.",
+        "C. Perspirationen minskar från 8–10 ml/kg/dygn till 6–8 ml/kg/dygn.",
+        "D. Perspirationen förblir oförändrad vid 15–20 ml/kg/dygn oavsett ventilationsstöd."
+      ],
+      correctIndex: 2,
+      explanation: "Rätt svar! Aktiv befuktning och stängda luftvägar vid respiratorvård minskar de osynliga vätskeförlusterna hos spädbarn till 6–8 ml/kg/dygn (jämfört med 8–10 ml/kg/dygn vid spontanandning)."
+    },
+    {
+      question: "Fråga nr 5: Vad innebär kliniskt begreppet 'Fluid Creep' inom intensivvård av barn?",
+      options: [
+        "A. Kontinuerlig ökning av underhållsvätskan under de första tre dygnen på BIVA.",
+        "B. Långsam, oavsiktlig vätsketillförsel från spädning av läkemedel, spolningar och bärarinfusioner.",
+        "C. Fördröjd urinproduktion som uppstår efter initial vätskeresuscitation.",
+        "D. Gradvis läckage av vätska från intravaskulära rummet till interstitiet vid sepsis."
+      ],
+      correctIndex: 1,
+      explanation: "Rätt svar! Fluid creep avser den betydande mängd vätska och elektrolyter som tillförs oavsiktligt utöver den ordinerade underhålls- eller resuscitationsvätskan."
+    },
+    {
+      question: "Fråga nr 6: Vilket är det primära målet för timdiures hos ett barn som vårdas på BIVA för att säkerställa god njurperfusion?",
+      options: [
+        "A. > 10 ml/kg/timme",
+        "B. > 1–2 ml/kg/timme",
+        "C. > 5–8 ml/kg/timme",
+        "D. > 0,1–0,5 ml/kg/timme"
+      ],
+      correctIndex: 1,
+      explanation: "Rätt svar! En timdiures över 1–2 ml/kg/timme indikerar adekvat njurperfusion och adekvat vätskebalans hos barn."
+    },
+    {
+      question: "Fråga nr 7: Ett barn på BIVA som väger 10 kg har ett buksdrän. Enligt BIVA:s riktlinjer för ersättning av dränförluster (1%-regeln), vid vilken dygnsförlust ska ersättning med kristalloid påbörjas?",
+      options: [
+        "A. Förluster överstigande 10 ml/dygn",
+        "B. Alla dränförluster ska ersättas oavsett volym från första millilitern.",
+        "C. Förluster överstigande 500 ml/dygn",
+        "D. Förluster överstigande 100 ml/dygn"
+      ],
+      correctIndex: 3,
+      explanation: "Rätt svar! 1 % av kroppsvikten för en patient på 10 kg beräknas till 100 ml per dygn (dvs. >10 ml/kg/dygn). Först vid förluster över 100 ml/dygn ersätts överskottet."
+    },
+    {
+      question: "Fråga nr 8: Vad är den fysiologiska orsaken till att nyfödda barn förväntas minska 5–10 % i vikt under sina första 3–5 levnadsdagar?",
+      options: [
+        "A. Fysiologisk kontraktion av den extracellulära vätskevolymen (ECV).",
+        "B. Ökad perspiration till följd av hög omgivningstemperatur i respiratorn.",
+        "C. Nedsatt glomerulär filtrationshastighet som leder till tillfällig uttorkning.",
+        "D. Snabb förlust av fettmassa på grund av otillräckligt kaloriintag."
+      ],
+      correctIndex: 0,
+      explanation: "Det stämmer! Nyfödda föds med ett vätskeöverskott i det extracellulära rummet som naturligt utsöndras under de första dygnen genom en fysiologisk kontraktion av ECV."
+    },
+    {
+      question: "Fråga nr 9: Enligt BIVA:s riktlinjer, vilka åtgärder bör vidtas om en patient utvecklar hyperkloremi med S-Klorid > 110 mmol/L?",
+      options: [
+        "A. Avbryta all enteral nutrition och ersätta med ren Ringer-acetat.",
+        "B. Ge furosemid i kombination med koncentrerad NaCl 15% infusion.",
+        "C. Öka tillförseln av Natriumklorid 0,9% och ge kalium som Addex-Kaliumklorid.",
+        "D. Späda läkemedel i Glukos 5%, ge kalium som Addex-Kalium och använda Plasmalyte vid bolusbehov."
+      ],
+      correctIndex: 3,
+      explanation: "Rätt svar! Dessa åtgärder minskar aktivt tillförseln av kloridjoner för att motverka kloridinducerad metabol acidos och njurvasokonstriktion."
+    },
+    {
+      question: "Fråga nr 10: Hur ska provtagning ur ett timdiuresset (Unometer Safeti Plus) genomföras korrekt för att undvika kontamination och felaktiga provsvar?",
+      options: [
+        "A. Tömma urimethållaren helt och ta provet från nästa droppe som rinner ner i mätglaset.",
+        "B. Koppla loss KAD-slangen från mätenheten och häll urinen direkt i ett provrör.",
+        "C. Rengöra provtagningsmembranet nära KAD-anslutningen och dra upp urin med en röd kanyl efter att slangen varit stängd en stund.",
+        "D. Suga ut urin via bottenventilen på uppsamlingspåsen med en spruta."
+      ],
+      correctIndex: 2,
+      explanation: "Rätt svar! Genom att stänga av slangen samlas färsk urin ovanför membranet. Noggrann desinfektion och användning av kanyl vid membranet bevarar det slutna systemet och minskar infektionsrisken."
+    },
+    {
+      question: "Fråga nr 11: Från vilket vårddygn på BIVA är den generella målsättningen att uppnå en negativ vätskebalans hos kritiskt sjuka barn?",
+      options: [
+        "A. Från BIVA-dygn 2–3",
+        "B. Först efter BIVA-dygn 7",
+        "C. Från BIVA-dygn 1",
+        "D. Negativ vätskebalans eftersträvas aldrig hos barn på intensivvårdsavdelning."
+      ],
+      correctIndex: 0,
+      explanation: "Det stämmer! Efter den initiala resuscitations- och stabiliseringsfasen är målet att mobilisera ackumulerad vätska och eftersträva negativ balans från dygn 2–3 för att undvika skadlig övervätskning."
+    },
+    {
+      question: "Fråga nr 12: Vilken är den rekommenderade begränsningen för den totala mängden vätskebolusar som bör ges vid akut resuscitation (t.ex. vid svår sepsis) innan man sätter in vasoaktiva/inotropa läkemedel?",
+      options: [
+        "A. Maximalt 60 ml/kg",
+        "B. Maximalt 20 ml/kg",
+        "C. Det finns ingen övre gräns så länge blodtrycket är lågt.",
+        "D. Maximalt 100 ml/kg"
+      ],
+      correctIndex: 0,
+      explanation: "Det stämmer! Vid refraktär chock ska vasoaktivt stöd sättas in och ekokardiografi övervägas om barnet kräver >40–60 ml/kg i total bolusvolym, för att undvika mortalitetsökande övervätskning."
+    }
+  ];
+
+  function renderQuiz() {
+    const quizContainer = document.getElementById("quiz-container");
+    const scoreBanner = document.getElementById("score-banner");
+
+    if (!quizContainer) return;
+
+    quizContainer.innerHTML = "";
+    scoreBanner.style.display = "none";
+    let answeredCount = 0;
+    let correctCount = 0;
+
+    quizData.forEach((q, qIndex) => {
+      const card = document.createElement("div");
+      card.className = "question-card";
+
+      const title = document.createElement("div");
+      title.className = "question-title";
+      title.textContent = q.question;
+      card.appendChild(title);
+
+      const optionsDiv = document.createElement("div");
+      optionsDiv.className = "options";
+
+      const explanationDiv = document.createElement("div");
+      explanationDiv.className = "explanation";
+      explanationDiv.innerHTML = `<strong>Återkoppling:</strong> ${q.explanation}`;
+
+      q.options.forEach((opt, optIndex) => {
+        const btn = document.createElement("button");
+        btn.className = "option-btn";
+        btn.textContent = opt;
+
+        btn.addEventListener("click", () => {
+          const buttons = optionsDiv.querySelectorAll(".option-btn");
+          buttons.forEach(b => b.disabled = true);
+
+          if (optIndex === q.correctIndex) {
+            btn.classList.add("correct");
+            correctCount++;
+          } else {
+            btn.classList.add("wrong");
+            buttons[q.correctIndex].classList.add("correct");
+          }
+
+          explanationDiv.classList.add("show");
+          answeredCount++;
+
+          if (answeredCount === quizData.length) {
+            scoreBanner.style.display = "block";
+            scoreBanner.innerHTML = `
+              <div>Du har slutfört alla frågor! Resultat: <strong>${correctCount} av ${quizData.length} rätt</strong>.</div>
+              <button class="reset-btn" id="reload-btn">Gör om testet</button>
+            `;
+            document.getElementById("reload-btn").addEventListener("click", renderQuiz);
+          }
+        });
+
+        optionsDiv.appendChild(btn);
+      });
+
+      card.appendChild(optionsDiv);
+      card.appendChild(explanationDiv);
+      quizContainer.appendChild(card);
+    });
+  }
+
+  // Säkerställ att sidan är helt inläst innan quizet genereras
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", renderQuiz);
+  } else {
+    renderQuiz();
+  }
+</script>
+
+</body>
+</html>
